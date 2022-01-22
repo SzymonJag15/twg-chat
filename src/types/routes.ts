@@ -1,7 +1,7 @@
 import { StackScreenProps } from "@react-navigation/stack"
 
 export type RootStackStackParamList = {
-  Home: undefined;
+  Rooms: undefined;
   About: undefined
 }
 
