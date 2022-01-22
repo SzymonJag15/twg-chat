@@ -1,48 +1,54 @@
-import { GET_ROOM } from '@/api/queries';
+import { SEND_MESSAGE } from '@/api/mutation';
+import { GET_CURRENT_USER_ID, GET_ROOM } from '@/api/queries';
 import { RootStackProps } from '@/types/routes';
-import { useQuery } from '@apollo/client';
+import { changeToMessageScheme } from '@/utils/messages';
+import { useMutation, useQuery } from '@apollo/client';
 import React, { useCallback } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { GiftedChat, IMessage } from 'react-native-gifted-chat';
+import { SingleMessage } from './Room.types';
 
-const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
+const Room = ({ route }: RootStackProps): JSX.Element => {
   // @ts-expect-error types for params
   const { id } = route.params;
-  const { data } = useQuery(GET_ROOM, {
+  const { data: userID } = useQuery(GET_CURRENT_USER_ID);
+  const { data: dataRoom } = useQuery(GET_ROOM, {
     variables: { id },
+    // pollInterval: 1000,
   });
 
+  const [sendMessage] = useMutation(SEND_MESSAGE);
+
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    if (!dataRoom) return;
+    const allMessages: IMessage[] = dataRoom.room.messages.map((message: SingleMessage) =>
+      changeToMessageScheme(message),
+    );
+    setMessages(allMessages);
+  }, [dataRoom]);
 
   const [messages, setMessages] = useState<IMessage[]>();
 
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ]);
-  }, []);
-
   const onSend = useCallback((messages: IMessage[] = []) => {
     setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
+    void sendMessage({ variables: { body: messages[0].text, roomId: id } });
   }, []);
 
   return (
     <View style={styles.container}>
-      <GiftedChat messages={messages} onSend={(messages) => onSend(messages)} />
-      <Button title="Rooms" onPress={() => navigation.navigate('Rooms')} />
+      {userID && (
+        <GiftedChat
+          messages={messages}
+          onSend={(messages) => onSend(messages)}
+          user={{
+            _id: userID.user.id,
+          }}
+          maxComposerHeight={50}
+          wrapInSafeArea={true}
+        />
+      )}
     </View>
   );
 };
@@ -50,7 +56,6 @@ const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },

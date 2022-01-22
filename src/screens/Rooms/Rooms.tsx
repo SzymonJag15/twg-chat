@@ -1,8 +1,10 @@
 import { GET_ROOMS } from '@/api/queries';
+import SingleRoomListElement from '@/components/base/SingleRoomListElement/SingleRoomListElement';
+import ProfileIcon from '@/components/icons/ProfileIcon';
 import { RootStackProps } from '@/types/routes';
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { SingleRoom } from './Rooms.types';
 
 const Rooms = ({ navigation }: RootStackProps): JSX.Element => {
@@ -14,9 +16,12 @@ const Rooms = ({ navigation }: RootStackProps): JSX.Element => {
       {data &&
         data.usersRooms.rooms.map((room: SingleRoom) => (
           <View key={room.id}>
-            <Text key={room.id}>{room.name}</Text>
-            <Button
-              title="Enter to room"
+            <SingleRoomListElement
+              key={room.id}
+              name={room.name}
+              lastMessage="Last message!"
+              timeAgo="16 day ago"
+              avatar={<ProfileIcon />}
               onPress={() => navigation.navigate('Room', { id: room.id })}
             />
           </View>
@@ -28,9 +33,6 @@ const Rooms = ({ navigation }: RootStackProps): JSX.Element => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 
