@@ -1,12 +1,18 @@
-module.exports = {
-  presets: ['babel-preset-expo'],
-  plugins: [
-    [
-      'babel-plugin-root-import',
-      {
-        rootPathPrefix: '@',
-        rootPathSuffix: 'src',
+const presets = ['babel-preset-expo'];
+const plugins = [
+  [
+    'module-resolver',
+    {
+      root: ['./src'],
+      extensions: ['.js', '.json'],
+      alias: {
+        '@': './src',
       },
-    ],
+    },
   ],
+];
+
+module.exports = {
+  presets,
+  plugins,
 };
