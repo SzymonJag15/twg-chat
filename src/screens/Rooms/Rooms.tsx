@@ -12,8 +12,15 @@ const Rooms = ({ navigation }: RootStackProps): JSX.Element => {
   return (
     <View style={styles.container}>
       {data &&
-        data.usersRooms.rooms.map((room: SingleRoom) => <Text key={room.id}>{room.name}</Text>)}
-      <Button title="About" onPress={() => navigation.navigate('About')} />
+        data.usersRooms.rooms.map((room: SingleRoom) => (
+          <View key={room.id}>
+            <Text key={room.id}>{room.name}</Text>
+            <Button
+              title="Enter to room"
+              onPress={() => navigation.navigate('Room', { id: room.id })}
+            />
+          </View>
+        ))}
     </View>
   );
 };
