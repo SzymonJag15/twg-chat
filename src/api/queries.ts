@@ -43,6 +43,13 @@ export const GET_ROOM = gql`
         }
       }
       name
+      user {
+        id
+        firstName
+        lastName
+        role
+        email
+      }
     }
   }
 `

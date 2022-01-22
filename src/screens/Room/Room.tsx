@@ -1,5 +1,12 @@
 import { SEND_MESSAGE } from '@/api/mutation';
 import { GET_CURRENT_USER_ID, GET_ROOM } from '@/api/queries';
+import {
+  renderComposer,
+  renderInputToolbar,
+  renderMessageText,
+  renderSend,
+} from '@/components/global/ChatManager/ChatManager';
+import HeaderRoom from '@/components/global/Header/HeaderRoom';
 import { RootStackProps } from '@/types/routes';
 import { changeToMessageScheme } from '@/utils/messages';
 import { useMutation, useQuery } from '@apollo/client';
@@ -10,13 +17,13 @@ import { StyleSheet, View } from 'react-native';
 import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 import { SingleMessage } from './Room.types';
 
-const Room = ({ route }: RootStackProps): JSX.Element => {
+const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
   // @ts-expect-error types for params
   const { id } = route.params;
   const { data: userID } = useQuery(GET_CURRENT_USER_ID);
   const { data: dataRoom } = useQuery(GET_ROOM, {
     variables: { id },
-    // pollInterval: 1000,
+    pollInterval: 1000,
   });
 
   const [sendMessage] = useMutation(SEND_MESSAGE);
@@ -38,15 +45,21 @@ const Room = ({ route }: RootStackProps): JSX.Element => {
 
   return (
     <View style={styles.container}>
+      <HeaderRoom onBack={() => navigation.goBack()} />
       {userID && (
         <GiftedChat
           messages={messages}
-          onSend={(messages) => onSend(messages)}
+          renderMessageText={renderMessageText}
+          renderInputToolbar={renderInputToolbar}
+          renderComposer={renderComposer}
+          renderSend={renderSend}
+          maxComposerHeight={50}
+          alwaysShowSend
+          wrapInSafeArea
           user={{
             _id: userID.user.id,
           }}
-          maxComposerHeight={50}
-          wrapInSafeArea={true}
+          onSend={onSend}
         />
       )}
     </View>
