@@ -1,11 +1,11 @@
 import { GET_ROOMS } from '@/api/queries';
-import SingleRoomListElement from '@/components/base/SingleRoomListElement/SingleRoomListElement';
-import HeaderRooms from '@/components/global/Header/HeaderRooms';
-import ProfileIcon from '@/components/icons/ProfileIcon';
 import { RootStackProps } from '@/types/routes';
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import SingleRoomListElement from '@/components/base/SingleRoomListElement/SingleRoomListElement';
+import HeaderRooms from '@/components/global/Header/HeaderRooms';
+import ProfileIcon from '@/components/icons/ProfileIcon';
 import { SingleRoom } from './Rooms.types';
 
 const Rooms = ({ navigation, route }: RootStackProps): JSX.Element => {

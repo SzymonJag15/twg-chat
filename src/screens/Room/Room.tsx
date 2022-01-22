@@ -34,6 +34,7 @@ const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
       changeToMessageScheme(message),
     );
     setMessages(allMessages);
+    console.log(dataRoom.room.user, 'dataRoom');
   }, [dataRoom]);
 
   const [messages, setMessages] = useState<IMessage[]>();
@@ -45,7 +46,13 @@ const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
 
   return (
     <View style={styles.container}>
-      <HeaderRoom onBack={() => navigation.goBack()} />
+      {dataRoom && (
+        <HeaderRoom
+          onBack={() => navigation.goBack()}
+          name={`${dataRoom.room.user.firstName} ${dataRoom.room.user.lastName}`}
+          status="Active now"
+        />
+      )}
       {userID && (
         <GiftedChat
           messages={messages}
