@@ -4,21 +4,22 @@ import ProfileIcon from '@/components/icons/ProfileIcon';
 import SearchIcon from '@/components/icons/SearchIcon';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { IHeaderRoomProps } from './Headers.types';
 
-const HeaderRoom = ({ onBack }: { onBack: () => void }): JSX.Element => (
+const HeaderRoom = ({ onBack, name, status }: IHeaderRoomProps): JSX.Element => (
   <View style={styles.container}>
     <Pressable onPress={onBack}>
-      <BackIcon />
+      <BackIcon style={styles.backIcon} />
     </Pressable>
-    <View>
-      <ProfileIcon />
-      <View>
-        <Text>The Widlarz Group</Text>
-        <Text>Active now</Text>
+    <View style={styles.personWrapper}>
+      <ProfileIcon width="44px" height="44px" />
+      <View style={styles.personTitleWrapper}>
+        <Text style={styles.personName}>{name}</Text>
+        <Text style={styles.status}>{status}</Text>
       </View>
     </View>
     <View style={styles.actionIconsWrapper}>
-      <SearchIcon style={styles.icon} color="#5603AD" />
+      <SearchIcon style={styles.searchIcon} color="#5603AD" />
       <PhoneIcon color="#5603AD" />
     </View>
   </View>
@@ -46,8 +47,27 @@ const styles = StyleSheet.create({
   actionIconsWrapper: {
     flexDirection: 'row',
   },
-  icon: {
+  backIcon: {
+    marginBottom: 12,
+  },
+  searchIcon: {
     marginRight: 5,
+  },
+  personWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  personTitleWrapper: {
+    marginLeft: 12,
+  },
+  personName: {
+    fontSize: 14,
+    color: '#5603AD',
+    fontWeight: '700',
+  },
+  status: {
+    fontSize: 14,
+    color: '#fff',
   },
 });
 
