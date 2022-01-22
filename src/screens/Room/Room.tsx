@@ -1,11 +1,23 @@
+import { GET_ROOM } from '@/api/queries';
 import { RootStackProps } from '@/types/routes';
+import { useQuery } from '@apollo/client';
 import React, { useCallback } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 
-const About = ({ navigation }: RootStackProps): JSX.Element => {
+const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
+  // @ts-expect-error types for params
+  const { id } = route.params;
+  const { data } = useQuery(GET_ROOM, {
+    variables: { id },
+  });
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   const [messages, setMessages] = useState<IMessage[]>();
 
   useEffect(() => {
@@ -44,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default About;
+export default Room;
