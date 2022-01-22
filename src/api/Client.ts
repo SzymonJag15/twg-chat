@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { AUTH_TOKEN, API_URL } from '@/constants/api';
+import { API_URL, AUTH_TOKEN } from "@env";
 
 const client = new ApolloClient({
   uri: API_URL,
