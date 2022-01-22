@@ -1,5 +1,13 @@
 import { gql } from "@apollo/client";
 
+export const GET_CURRENT_USER_ID = gql`
+   query {
+    user {
+      id
+    }
+  }
+`;
+
 export const GET_ROOMS = gql`
    query {
     usersRooms {
