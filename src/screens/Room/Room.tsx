@@ -24,7 +24,7 @@ const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
   const { data: userID } = useQuery(GET_CURRENT_USER_ID);
   const { data: dataRoom } = useQuery(GET_ROOM, {
     variables: { id },
-    // pollInterval: 3000,
+    pollInterval: 3000,
   });
 
   const [sendMessage] = useMutation(SEND_MESSAGE);
