@@ -2,7 +2,7 @@ import { GET_ROOMS } from '@/api/queries';
 import { RootStackProps } from '@/types/routes';
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 import SingleRoomListElement from '@/components/base/SingleRoomListElement/SingleRoomListElement';
 import HeaderRooms from '@/components/global/Header/HeaderRooms';
 import ProfileIcon from '@/components/icons/ProfileIcon';
@@ -12,7 +12,7 @@ const Rooms = ({ navigation, route }: RootStackProps): JSX.Element => {
   const { data } = useQuery(GET_ROOMS);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <HeaderRooms title={route.name} />
       {data ? (
         data.usersRooms.rooms.map((room: SingleRoom) => (
@@ -30,7 +30,9 @@ const Rooms = ({ navigation, route }: RootStackProps): JSX.Element => {
       ) : (
         <Text>Loading...</Text>
       )}
-    </View>
+
+      <Button title="Register" onPress={() => navigation.navigate('Register')} />
+    </ScrollView>
   );
 };
 

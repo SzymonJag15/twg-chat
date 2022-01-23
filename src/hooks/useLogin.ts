@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from "react";
 
 const useLogin = () => {
-  const [token, setToken] = useState<string>();
+  const [token, setToken] = useState('');
 
   const getToken = async () => {
     const token = await AsyncStorage.getItem('token');
