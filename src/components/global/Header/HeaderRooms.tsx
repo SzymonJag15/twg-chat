@@ -1,12 +1,13 @@
+import BaseTitle from '@/components/base/BaseTitle/BaseTitle';
 import RoomsIcon from '@/components/icons/RoomsIcon';
 import SearchIcon from '@/components/icons/SearchIcon';
 import { BASE_COLORS, ROUNDED } from '@/constants/styles';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 const HeaderRooms = ({ title }: { title: string }): JSX.Element => (
   <View style={styles.container}>
-    <Text style={styles.title}>{title}</Text>
+    <BaseTitle title={title} />
     <View style={styles.actionIconsWrapper}>
       <SearchIcon style={styles.icon} color={BASE_COLORS.darkViolet} />
       <RoomsIcon color={BASE_COLORS.darkViolet} />
@@ -27,11 +28,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     height: 120,
     width: '100%',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: BASE_COLORS.darkViolet,
   },
   actionIconsWrapper: {
     flexDirection: 'row',
