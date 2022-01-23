@@ -2,7 +2,7 @@ import { GET_ROOMS } from '@/api/queries';
 import { RootStackProps } from '@/types/routes';
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 import SingleRoomListElement from '@/components/base/SingleRoomListElement/SingleRoomListElement';
 import HeaderRooms from '@/components/global/Header/HeaderRooms';
 import ProfileIcon from '@/components/icons/ProfileIcon';
@@ -27,6 +27,8 @@ const Rooms = ({ navigation, route }: RootStackProps): JSX.Element => {
             />
           </View>
         ))}
+
+      <Button title="Login" onPress={() => navigation.navigate('Login')} />
     </View>
   );
 };
