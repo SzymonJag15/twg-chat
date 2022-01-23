@@ -3,44 +3,49 @@ import { Text, View, TextInput, StyleSheet, Pressable, Alert } from 'react-nativ
 import { useForm, Controller } from 'react-hook-form';
 import { BASE_COLORS, ROUNDED } from '@/constants/styles';
 import { RootStackProps } from '@/types/routes';
-import { LoginFormValues } from './Login.types';
-import { LOGIN_USER } from '@/api/mutation';
+import { REGISTER_USER } from '@/api/mutation';
 import { useMutation } from '@apollo/client';
 import BaseTitle from '@/components/base/BaseTitle/BaseTitle';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RegisterFormValues } from './Register.types';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const Login = ({ navigation }: RootStackProps) => {
+const Register = ({ navigation }: RootStackProps) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormValues>({
+  } = useForm<RegisterFormValues>({
     defaultValues: {
       email: '',
+      firstName: '',
+      lastName: '',
       password: '',
+      passwordConfirmation: '',
     },
   });
-  const [loginUser, { loading }] = useMutation(LOGIN_USER);
+  const [registerUser, { loading }] = useMutation(REGISTER_USER);
 
-  const onSubmit = async (data: LoginFormValues) => {
+  const onSubmit = async (data: RegisterFormValues) => {
     try {
-      const response = await loginUser({
-        variables: { email: data.email, password: data.password },
+      const response = await registerUser({
+        variables: {
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          password: data.password,
+          passwordConfirmation: data.passwordConfirmation,
+        },
       });
-      if (response) {
-        await AsyncStorage.setItem('token', JSON.stringify(response.data.loginUser.token));
-        return navigation.navigate('Rooms');
-      }
+      if (response) console.log(response);
     } catch (error) {
       Alert.alert('Data incorrect, please try again.');
     }
   };
 
   return (
-    <View style={styles.container}>
-      <BaseTitle title="Welcome back" />
-      <Text style={styles.subtitle}>Log in and stay in touch with everyone!</Text>
+    <ScrollView style={styles.container}>
+      <BaseTitle title="Create account" />
 
       <View style={styles.spaceBetweenForm}>
         <View>
@@ -63,6 +68,42 @@ const Login = ({ navigation }: RootStackProps) => {
           />
           {errors.email && <Text style={styles.errorMessage}>This is required.</Text>}
 
+          <Text style={styles.label}>first name</Text>
+          <Controller
+            control={control}
+            name="firstName"
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                style={styles.input}
+              />
+            )}
+          />
+          {errors.firstName && <Text style={styles.errorMessage}>This is required.</Text>}
+
+          <Text style={styles.label}>last name</Text>
+          <Controller
+            control={control}
+            name="lastName"
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                style={styles.input}
+              />
+            )}
+          />
+          {errors.lastName && <Text style={styles.errorMessage}>This is required.</Text>}
+
           <Text style={styles.label}>password</Text>
           <Controller
             control={control}
@@ -81,6 +122,27 @@ const Login = ({ navigation }: RootStackProps) => {
             )}
           />
           {errors.password && <Text style={styles.errorMessage}>This is required.</Text>}
+
+          <Text style={styles.label}>password confirmation</Text>
+          <Controller
+            control={control}
+            name="passwordConfirmation"
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                secureTextEntry
+                style={styles.input}
+              />
+            )}
+          />
+          {errors.passwordConfirmation && (
+            <Text style={styles.errorMessage}>This is required.</Text>
+          )}
         </View>
 
         <View>
@@ -93,14 +155,14 @@ const Login = ({ navigation }: RootStackProps) => {
           </Pressable>
 
           <View style={styles.signUpCTAWrapper}>
-            <Text style={styles.signUpText}>Dont have an account?</Text>
-            <Pressable onPress={() => navigation.navigate('Register')}>
-              <Text style={styles.signUpCTA}>Sign up</Text>
+            <Text style={styles.signUpText}>Already have an acccount?</Text>
+            <Pressable onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.signUpCTA}>Log in</Text>
             </Pressable>
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -171,4 +233,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Register;
