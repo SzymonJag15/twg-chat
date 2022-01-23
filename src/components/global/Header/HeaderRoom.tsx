@@ -1,53 +1,83 @@
 import BackIcon from '@/components/icons/BackIcon';
 import PhoneIcon from '@/components/icons/PhoneIcon';
 import ProfileIcon from '@/components/icons/ProfileIcon';
-import SearchIcon from '@/components/icons/SearchIcon';
+import VideoIcon from '@/components/icons/VideoIcon';
+import { BASE_COLORS, ROUNDED } from '@/constants/styles';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { IHeaderRoomProps } from './Headers.types';
 
-const HeaderRoom = ({ onBack }: { onBack: () => void }): JSX.Element => (
+const HeaderRoom = ({ onBack, name, status }: IHeaderRoomProps): JSX.Element => (
   <View style={styles.container}>
-    <Pressable onPress={onBack}>
-      <BackIcon />
-    </Pressable>
-    <View>
-      <ProfileIcon />
-      <View>
-        <Text>The Widlarz Group</Text>
-        <Text>Active now</Text>
+    <View style={styles.dataContainer}>
+      <Pressable onPress={onBack}>
+        <BackIcon style={styles.backIcon} />
+      </Pressable>
+      <View style={styles.personWrapper}>
+        <ProfileIcon width="44px" height="44px" />
+        <View style={styles.personTitleWrapper}>
+          <Text style={styles.personName}>{name}</Text>
+          <Text style={styles.status}>{status}</Text>
+        </View>
       </View>
     </View>
     <View style={styles.actionIconsWrapper}>
-      <SearchIcon style={styles.icon} color="#5603AD" />
-      <PhoneIcon color="#5603AD" />
+      <PhoneIcon style={styles.phoneIcon} color={BASE_COLORS.darkViolet} />
+      <VideoIcon color={BASE_COLORS.darkViolet} />
     </View>
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#B6DEFD',
-    borderBottomRightRadius: 12,
-    borderBottomLeftRadius: 12,
+    backgroundColor: BASE_COLORS.darkBlue,
+    borderBottomRightRadius: ROUNDED.big,
+    borderBottomLeftRadius: ROUNDED.big,
     padding: 16,
     paddingBottom: 20,
-    marginBottom: 35,
+    marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    height: 130,
+    height: 120,
     width: '100%',
+  },
+  dataContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     fontSize: 28,
     fontWeight: '700',
-    color: '#5603AD',
+    color: BASE_COLORS.darkViolet,
   },
   actionIconsWrapper: {
     flexDirection: 'row',
   },
-  icon: {
+  backIcon: {
+    width: 12,
+    height: 20,
+    color: BASE_COLORS.darkViolet,
+  },
+  phoneIcon: {
     marginRight: 5,
+  },
+  personWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 12,
+  },
+  personTitleWrapper: {
+    marginLeft: 12,
+  },
+  personName: {
+    fontSize: 14,
+    color: BASE_COLORS.darkViolet,
+    fontWeight: '700',
+  },
+  status: {
+    fontSize: 14,
+    color: BASE_COLORS.white,
   },
 });
 

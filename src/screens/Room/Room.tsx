@@ -7,6 +7,7 @@ import {
   renderSend,
 } from '@/components/global/ChatManager/ChatManager';
 import HeaderRoom from '@/components/global/Header/HeaderRoom';
+import { BASE_COLORS } from '@/constants/styles';
 import { RootStackProps } from '@/types/routes';
 import { changeToMessageScheme } from '@/utils/messages';
 import { useMutation, useQuery } from '@apollo/client';
@@ -23,10 +24,13 @@ const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
   const { data: userID } = useQuery(GET_CURRENT_USER_ID);
   const { data: dataRoom } = useQuery(GET_ROOM, {
     variables: { id },
-    pollInterval: 1000,
+    // pollInterval: 3000,
   });
 
   const [sendMessage] = useMutation(SEND_MESSAGE);
+
+  const [messages, setMessages] = useState<IMessage[]>();
+  const [isFocus, setIsFocus] = useState(false);
 
   useEffect(() => {
     if (!dataRoom) return;
@@ -36,8 +40,6 @@ const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
     setMessages(allMessages);
   }, [dataRoom]);
 
-  const [messages, setMessages] = useState<IMessage[]>();
-
   const onSend = useCallback((messages: IMessage[] = []) => {
     setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
     void sendMessage({ variables: { body: messages[0].text, roomId: id } });
@@ -45,7 +47,13 @@ const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
 
   return (
     <View style={styles.container}>
-      <HeaderRoom onBack={() => navigation.goBack()} />
+      {dataRoom && (
+        <HeaderRoom
+          onBack={() => navigation.goBack()}
+          name={`${dataRoom.room.user.firstName} ${dataRoom.room.user.lastName}`}
+          status="Active now"
+        />
+      )}
       {userID && (
         <GiftedChat
           messages={messages}
@@ -53,7 +61,14 @@ const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
           renderInputToolbar={renderInputToolbar}
           renderComposer={renderComposer}
           renderSend={renderSend}
+          renderTime={() => null}
           maxComposerHeight={50}
+          listViewProps={{ marginBottom: 40 }}
+          textInputProps={{
+            onFocus: () => setIsFocus((prevState) => !prevState),
+            borderColor: isFocus ? BASE_COLORS.darkViolet : 'transparent',
+            borderWidth: 2,
+          }}
           alwaysShowSend
           wrapInSafeArea
           user={{
@@ -69,8 +84,6 @@ const Room = ({ navigation, route }: RootStackProps): JSX.Element => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

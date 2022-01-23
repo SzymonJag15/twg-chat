@@ -1,8 +1,8 @@
 import React from 'react';
-import Svg, { Circle, G, Mask, Path } from 'react-native-svg';
+import Svg, { Circle, G, Mask, Path, SvgProps } from 'react-native-svg';
 
-const ProfileIcon = (): JSX.Element => (
-  <Svg viewBox="0 0 64 64" width="64px" height="64px">
+const ProfileIcon = (props: SvgProps): JSX.Element => (
+  <Svg viewBox="0 0 64 64" width="64px" height="64px" {...props}>
     <Circle cx="32" cy="32" r="32" fill="#E9EAEE" />
     <Mask id="mask0" mask-type="alpha" x="0" y="0" width="64" height="64">
       <Circle cx="32" cy="32" r="32" fill="#E9EAEE" />
