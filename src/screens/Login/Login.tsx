@@ -8,6 +8,8 @@ import { LOGIN_USER } from '@/api/mutation';
 import { useMutation } from '@apollo/client';
 import BaseTitle from '@/components/base/BaseTitle/BaseTitle';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Login = ({ navigation }: RootStackProps) => {
   const {
     control,
@@ -26,7 +28,10 @@ const Login = ({ navigation }: RootStackProps) => {
       const response = await loginUser({
         variables: { email: data.email, password: data.password },
       });
-      if (response) return navigation.navigate('Rooms');
+      if (response) {
+        await AsyncStorage.setItem('token', JSON.stringify(response.data.loginUser.token));
+        return navigation.navigate('Rooms');
+      }
     } catch (error) {
       Alert.alert('Dane nieprawidłowe, proszę spróbuj jeszcze raz.');
     }
@@ -56,7 +61,7 @@ const Login = ({ navigation }: RootStackProps) => {
               />
             )}
           />
-          {errors.email && <Text style={styles.errorMessage}>Pole wymagane.</Text>}
+          {errors.email && <Text style={styles.errorMessage}>This is required.</Text>}
 
           <Text style={styles.label}>password</Text>
           <Controller
@@ -75,7 +80,7 @@ const Login = ({ navigation }: RootStackProps) => {
               />
             )}
           />
-          {errors.password && <Text style={styles.errorMessage}>Pole wymagane.</Text>}
+          {errors.password && <Text style={styles.errorMessage}>This is required.</Text>}
         </View>
 
         <View>

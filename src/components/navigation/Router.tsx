@@ -14,9 +14,9 @@ const Router = (): JSX.Element => (
         headerShown: false,
       }}
     >
+      <RootStack.Screen name="Login" component={Login} />
       <RootStack.Screen name="Rooms" component={Rooms} />
       <RootStack.Screen name="Room" component={Room} />
-      <RootStack.Screen name="Login" component={Login} />
     </RootStack.Navigator>
   </NavigationContainer>
 );
