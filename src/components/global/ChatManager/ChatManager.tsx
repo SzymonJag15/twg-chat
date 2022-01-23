@@ -1,4 +1,5 @@
 import SendIcon from '@/components/icons/SendIcon';
+import { BASE_COLORS, ROUNDED } from '@/constants/styles';
 import React from 'react';
 import {
   Composer,
@@ -18,8 +19,8 @@ export const renderMessage = (props: MessageProps<IMessage>) => (
   <Message
     {...props}
     containerStyle={{
-      left: { backgroundColor: '#fff' },
-      right: { backgroundColor: '#993AFC' },
+      left: { backgroundColor: BASE_COLORS.white },
+      right: { backgroundColor: BASE_COLORS.lightViolet },
     }}
   />
 );
@@ -28,12 +29,16 @@ export const renderMessageText = (props: MessageTextProps<IMessage>) => (
   <MessageText
     {...props}
     containerStyle={{
-      left: { backgroundColor: '#fff' },
-      right: { backgroundColor: '#993AFC', borderRadius: 12, borderBottomRightRadius: 0 },
+      left: { backgroundColor: BASE_COLORS.white },
+      right: {
+        backgroundColor: BASE_COLORS.lightViolet,
+        borderRadius: ROUNDED.small,
+        borderBottomRightRadius: 0,
+      },
     }}
     textStyle={{
-      left: { color: '#1A1A1A' },
-      right: { color: '#fff' },
+      left: { color: BASE_COLORS.primaryFont, fontSize: 14 },
+      right: { color: BASE_COLORS.white, fontSize: 14 },
     }}
   />
 );
@@ -42,11 +47,14 @@ export const renderInputToolbar = (props: InputToolbarProps) => (
   <InputToolbar
     {...props}
     containerStyle={{
-      backgroundColor: '#B6DEFD',
+      backgroundColor: BASE_COLORS.darkBlue,
       paddingHorizontal: 16,
-      paddingTop: 6,
+      paddingTop: 16,
+      paddingBottom: 25,
       width: '100%',
       borderTopWidth: 0,
+      borderTopLeftRadius: ROUNDED.small,
+      borderTopRightRadius: ROUNDED.small,
     }}
     primaryStyle={{ alignItems: 'center' }}
   />
@@ -58,12 +66,10 @@ export const renderComposer = (props: ComposerProps) => (
     placeholder=""
     textInputStyle={{
       color: '#222B45',
-      backgroundColor: '#fff',
+      backgroundColor: BASE_COLORS.white,
       borderWidth: 1,
-      borderRadius: 5,
+      borderRadius: ROUNDED.small,
       borderBottomRightRadius: 0,
-      borderColor: '#E4E9F2',
-      paddingTop: 8.5,
       paddingHorizontal: 12,
       marginLeft: 0,
       maxWidth: '90%',
@@ -83,6 +89,6 @@ export const renderSend = (props: SendProps<IMessage>) => (
       marginHorizontal: 4,
     }}
   >
-    <SendIcon color="#5603AD" height="30px" />
+    <SendIcon color={BASE_COLORS.darkViolet} height="30px" />
   </Send>
 );

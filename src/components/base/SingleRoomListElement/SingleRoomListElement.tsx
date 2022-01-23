@@ -1,3 +1,4 @@
+import { BASE_COLORS, ROUNDED } from '@/constants/styles';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ISingleRoomListElementProps } from './SingleRoomListElement.types';
@@ -23,19 +24,19 @@ const styles = StyleSheet.create({
   pressWrapper: {
     flexDirection: 'row',
     position: 'relative',
-    backgroundColor: '#fff',
+    backgroundColor: BASE_COLORS.white,
     alignItems: 'center',
     width: '100%',
-    marginBottom: '12px',
+    marginBottom: 12,
     paddingVertical: 12,
     paddingHorizontal: 16,
-    borderRadius: 12,
+    borderRadius: ROUNDED.small,
   },
   avatar: {
-    marginRight: '16px',
+    marginRight: 16,
   },
   commonText: {
-    color: '#1a1a1a',
+    color: BASE_COLORS.primaryFont,
     fontSize: 15,
   },
   smallText: {
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
   },
   timeAgo: {
     position: 'absolute',
-    right: 5,
+    right: 12,
     top: 5,
     fontSize: 13,
     color: '#9FA2B2',
